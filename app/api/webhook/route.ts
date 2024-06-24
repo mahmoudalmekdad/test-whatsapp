@@ -1,22 +1,32 @@
 
-import { NextResponse } from "next/server";
-import axios from 'axios'
-// To handle a GET request to /api
-export async function GET(req:any) {
+// import { NextResponse } from "next/server";
+// import axios from 'axios'
+// // To handle a GET request to /api
+// export async function GET(req:any) {
+//     console.log('aaaaaaas')
+//   // Do whatever you want
+//   let mode = req.query["hub.mode"]
+//   let challange = req.query["hub.challenge"]
+//   let token = req.query["hub.verify_token"]
 
-  if(req.query["hub.mode"] && req.query["hub.verify_token"]){
-      if(req.query["hub.mode"] === "subscribe" && req.query["hub.verify_token"] === "TestByJawad"){
-          // res.status(200).send(challange)
-          return NextResponse.json(Number(req.query["hub.challenge"]), { status: 200 });
-      }else{  
-        return NextResponse.json({res: 'res.status(403)'}, { status: 403 });
-      }
-  }else{
-      return NextResponse.json({res: 'res.status(403)'}, { status: 403 });
-  }
-}
+//   console.log(req.query)
+//   console.log(req.body)
 
-// To handle a POST request to /api
+//   const mytoken = "TestByJawad"
+
+//   if(mode && token){
+//       if(mode === "subscribe" && token === mytoken){
+//           // res.status(200).send(challange)
+//           return NextResponse.json(Number(challange), { status: 200 });
+//       }else{  
+//         return NextResponse.json({res: 'res.status(403)'}, { status: 403 });
+//       }
+//   }else{
+//       return NextResponse.json({res: 'res.status(403)'}, { status: 403 });
+//   }
+// }
+
+// // To handle a POST request to /api
 // export async function POST(req: Request) {
 //   // Do whatever you want
 //   let body_param: any = req.body
@@ -59,3 +69,6 @@ export async function GET(req:any) {
 
 //   }
 // }
+export async function GET(req: any) {
+    let mode = req.query["hub.mode"]
+}

@@ -16,12 +16,12 @@ export async function GET(req:any) {
   if(mode && token){
       if(mode === "subscribe" && token === mytoken){
           // res.status(200).send(challange)
-          return NextResponse.json(challange);
+          return NextResponse.json(challange, { status: 200 });
       }else{  
         return NextResponse.json({res: 'res.status(403)'}, { status: 403 });
       }
   }else{
-      return NextResponse.json({res: '    res.status(403)'}, { status: 403 });
+      return NextResponse.json({res: 'res.status(403)'}, { status: 403 });
   }
 }
 

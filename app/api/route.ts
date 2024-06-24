@@ -2,9 +2,31 @@
 import { NextResponse } from "next/server";
 import axios from 'axios'
 // To handle a GET request to /api
-export async function GET(request:Request) {
+export async function GET(req:any) {
   // Do whatever you want
-  return NextResponse.json({ message: "Hello World" }, { status: 200 });
+  let mode = req.query["hub.mode"]
+  let challange = req.query["hub.challenge"]
+  let token = req.query["hub.verify_token"]
+
+  console.log(req.query)
+  console.log(req.body)
+
+  const mytoken = "TestByJawad"
+
+  if(mode && token){
+      if(mode === "subscribe" && token === mytoken){
+          // res.status(200).send(challange)
+          return NextResponse.json(challange, { status: 200 });
+
+      }else{
+          
+          return NextResponse.json({res: 'res.status(403)'}, { status: 403 });
+      }
+  }else{
+  
+      return NextResponse.json({res: '    res.status(403)'}, { status: 403 });
+
+  }
 }
 
 // To handle a POST request to /api

@@ -1,33 +1,32 @@
 
-import { NextResponse } from "next/server";
 import axios from 'axios'
 // To handle a GET request to /api
-export async function GET(req:any) {
-    console.log('aaaaaaas', req.url)
+import { NextRequest, NextResponse } from 'next/server';
 
-    return NextResponse.json( { status: 200 });
-    // return
-  // Do whatever you want
-//   let mode = req.query["hub.mode"]
-//   let challange = req.query["hub.challenge"]
-//   let token = req.query["hub.verify_token"]
+export async function GET(req: NextRequest) {
+    console.log('aaaaaaas');
 
-//   console.log(req.query)
-//   console.log(req.body)
+    // Parse the URL to get query parameters
+    const { searchParams } = new URL(req.url);
+    const mode = searchParams.get("hub.mode");
+    const challenge = searchParams.get("hub.challenge");
+    const token = searchParams.get("hub.verify_token");
 
-//   const mytoken = "TestByJawad"
+    console.log(searchParams);
 
-//   if(mode && token){
-//       if(mode === "subscribe" && token === mytoken){
-//           // res.status(200).send(challange)
-//           return NextResponse.json(Number(challange), { status: 200 });
-//       }else{  
-//         return NextResponse.json({res: 'res.status(403)'}, { status: 403 });
-//       }
-//   }else{
-//       return NextResponse.json({res: 'res.status(403)'}, { status: 403 });
-//   }
+    const mytoken = "TestByJawad";
+
+    if (mode && token) {
+        if (mode === "subscribe" && token === mytoken) {
+            return NextResponse.json(Number(challenge), { status: 200 });
+        } else {
+            return NextResponse.json({ res: 'res.status(403)' }, { status: 403 });
+        }
+    } else {
+        return NextResponse.json({ res: 'res.status(403)' }, { status: 403 });
+    }
 }
+
 
 // To handle a POST request to /api
 export async function POST(req: Request) {

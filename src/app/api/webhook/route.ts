@@ -1,56 +1,75 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import { verifyWebhook } from '../../../../lib/verify';
+import axios from 'axios';
 
 export const revalidate = 0
 
 export async function GET(request: Request) {
-    const urlDecoded = new URL(request.url)
-    const urlParams = urlDecoded.searchParams
-    let mode = urlParams.get('hub.mode');
-    let token = urlParams.get('hub.verify_token');
-    let challenge = urlParams.get('hub.challenge');
-    // console.log("aaaaaaaaaaaaaaa", mode, token, challenge)
-    if (mode && token && challenge && mode == 'subscribe') {
-      const isValid = token == "TestByJawad"
-      if (isValid) {
-        return new NextResponse(challenge)
-      } else {
-        return new NextResponse(null, { status: 403 })
-      }
+  const urlDecoded = new URL(request.url)
+  const urlParams = urlDecoded.searchParams
+  let mode = urlParams.get('hub.mode');
+  let token = urlParams.get('hub.verify_token');
+  let challenge = urlParams.get('hub.challenge');
+  // console.log("aaaaaaaaaaaaaaa", mode, token, challenge)
+  if (mode && token && challenge && mode == 'subscribe') {
+    const isValid = token == "TestByJawad"
+    if (isValid) {
+      return new NextResponse(challenge)
     } else {
-      return new NextResponse(null, { status: 400 })
+      return new NextResponse(null, { status: 403 })
+    }
+  } else {
+    return new NextResponse(null, { status: 400 })
+  }
+}
+
+export async function POST(request: NextRequest) {
+  const headersList = headers();
+  // console.log('aaaaaaaa',headersList)
+  const xHubSigrature256 = headersList.get('x-hub-signature-256');
+  const rawRequestBody = await request.text()
+
+  if (!xHubSigrature256 || !verifyWebhook(rawRequestBody, xHubSigrature256)) {
+
+    console.warn(`Invalid signature : ${xHubSigrature256}`)
+    return new NextResponse(null, { status: 401 })
+  }
+  const webhookBody = JSON.parse(rawRequestBody) as any;
+  if (webhookBody.entry.length > 0) {
+    if (webhookBody.entry &&
+      webhookBody.entry[0].changes &&
+      webhookBody.entry[0].changes[0].value.messages &&
+      webhookBody.entry[0].changes[0].value.messages[0]) {
+
+      let phone_no_id = webhookBody.entry[0].changes[0].value.metadata.phone_number_id
+      let from = webhookBody.entry[0].changes[0].value.messages[0].from
+      let msg_body = webhookBody.entry[0].changes[0].value.messages[0].text.body
+      console.log("aaaaaaaaaaaaaaa", phone_no_id, from, msg_body)
+      console.log("webhookBodyaaaaaaaaaaaaaa", webhookBody)
+      axios({
+        method: "POST",
+        url: `https://graph.facebook.com/v20.0/${phone_no_id}/messages?access_token=${`EAANrLF1TIn8BOzFCkHkkTeHY5Rkj3yXtruwnMONVjY7OlA4vwSXjzCfaAwmdRBaZC8k8dSx50SACU8ZC306dzTU3b69HbB67WG1UxFXMW7Ud92MjdZAZADNIBz35E8iJj0nitGT8AhtQw3M43gACsg1IQryJvqFZAlOcAKTG8cIAC4X9SsdraWasmDlIA4kPo`}`,
+        data: {
+          messaging_product: "whatsapp",
+          to: from,
+          text: {
+            body: "Hi.. I'm Dr. Clinica, your message is " + msg_body
+          }
+        },
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(function (response) {
+        console.log(response)
+      }).catch(function (error) {
+        console.log(error.toJSON());
+      });
     }
   }
-
-  export async function POST(request: NextRequest) {
-    const headersList = headers();
-    // console.log('aaaaaaaa',headersList)
-    const xHubSigrature256 = headersList.get('x-hub-signature-256');
-    const rawRequestBody = await request.text()
-
-    if (!xHubSigrature256 || !verifyWebhook(rawRequestBody, xHubSigrature256)) {
-
-        console.warn(`Invalid signature : ${xHubSigrature256}`)
-        return new NextResponse(null, { status: 401 })
-      }
-      const webhookBody = JSON.parse(rawRequestBody) as any;
-      if (webhookBody.entry.length > 0) {
-          if(webhookBody.entry && 
-              webhookBody.entry[0].changes &&
-              webhookBody.entry[0].changes[0].value.messages &&
-              webhookBody.entry[0].changes[0].value.messages[0]){
-
-              let phone_no_id = webhookBody.entry[0].changes[0].value.metadata.phone_number_id
-              let from = webhookBody.entry[0].changes[0].value.messages[0].from
-              let msg_body = webhookBody.entry[0].changes[0].value.messages[0].text.body
-        console.log("aaaaaaaaaaaaaaa",phone_no_id,from,msg_body)
-        console.log("webhookBodyaaaaaaaaaaaaaa",webhookBody)
-              }
-      }
-      const changes = webhookBody.entry[0].changes;
-      console.log("changes", changes)
-  }
+  const changes = webhookBody.entry[0].changes;
+  console.log("changes", changes)
+}
 
 
 
@@ -146,7 +165,7 @@ export async function GET(request: Request) {
 // //   console.log(JSON.stringify(body_param,null,2))
 
 // //   if(body_param && body_param.object){
-// //       if(body_param.entry && 
+// //       if(body_param.entry &&
 // //           body_param.entry[0].changes &&
 // //           body_param.entry[0].changes[0].value.messages &&
 // //           body_param.entry[0].changes[0].value.messages[0]){

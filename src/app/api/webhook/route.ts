@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
   }
   const changes = webhookBody.entry[0].changes;
   console.log("changes", changes)
-  return new NextResponse(changes, { status: 400 })
+  return new NextResponse()
 
 }
 

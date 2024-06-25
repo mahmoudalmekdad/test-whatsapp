@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
           messaging_product: "whatsapp",
           to: from,
           text: {
-            body: "Hi.. I'm Dr. Clinica, your message is " + msg_body
+            body: "Hi.. I'm Dr. Omar alhayagh, your message is " + msg_body
           }
         },
         headers: {
@@ -75,6 +75,7 @@ export async function POST(request: NextRequest) {
   const changes = webhookBody.entry[0].changes;
   console.log("changes", changes)
   return new NextResponse(changes, { status: 400 })
+
 }
 
 

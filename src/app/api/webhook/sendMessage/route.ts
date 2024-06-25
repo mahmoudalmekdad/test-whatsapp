@@ -6,13 +6,14 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
     axios({
         method: "POST",
-        url: `https://graph.facebook.com/v19.0/309865878866039/messages`,
+        // this is the phone number ID for Dr beauty number
+        url: `https://graph.facebook.com/v19.0/271263942745722/messages`,
         data: {
             messaging_product: "whatsapp",
-            to: "971509264823",
+            to: "971503002601",
             text: {
                 // body: "Hala Partner.. I'm Dr Clinica, your message is How are you"
-                body: "This message from the CRM system"
+                body: "This message from the CRM system (did you receive?)"
             }
         },
         headers: {

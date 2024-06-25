@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
     axios({
         method: "POST",
-        url: `https://graph.facebook.com/v19.0/271263942745722/messages`,
+        url: `https://graph.facebook.com/v19.0/309865878866039/messages`,
         data: {
             messaging_product: "whatsapp",
             to: "971509264823",

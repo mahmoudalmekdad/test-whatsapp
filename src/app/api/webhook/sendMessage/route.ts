@@ -11,7 +11,8 @@ export async function POST(request: NextRequest) {
             messaging_product: "whatsapp",
             to: "971509264823",
             text: {
-                body: "Hala Partner.. I'm Dr Clinica, your message is How are you"
+                // body: "Hala Partner.. I'm Dr Clinica, your message is How are you"
+                body: "This message from the CRM system"
             }
         },
         headers: {

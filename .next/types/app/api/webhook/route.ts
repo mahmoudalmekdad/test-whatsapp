@@ -1,8 +1,8 @@
-// File: C:\Users\user\Documents\GitHub\anas\test-whatsapp\app\api\webhook\route.ts
-import * as entry from '../../../../../app/api/webhook/route.js'
+// File: C:\Users\user\Documents\GitHub\anas\test-whatsapp\src\app\api\webhook\route.ts
+import * as entry from '../../../../../src/app/api/webhook/route.js'
 import type { NextRequest } from 'next/server.js'
 
-type TEntry = typeof import('../../../../../app/api/webhook/route.js')
+type TEntry = typeof import('../../../../../src/app/api/webhook/route.js')
 
 // Check that the entry is a valid entry
 checkFields<Diff<{

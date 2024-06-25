@@ -44,7 +44,8 @@ export async function GET(request: Request) {
               let phone_no_id = webhookBody.entry[0].changes[0].value.metadata.phone_number_id
               let from = webhookBody.entry[0].changes[0].value.messages[0].from
               let msg_body = webhookBody.entry[0].changes[0].value.messages[0].text.body
-        console.log("webhookBodyaaaaaaaaaaaaaa",phone_no_id,from,msg_body)
+        console.log("aaaaaaaaaaaaaaa",phone_no_id,from,msg_body)
+        console.log("webhookBodyaaaaaaaaaaaaaa",webhookBody)
               }
       }
       const changes = webhookBody.entry[0].changes;

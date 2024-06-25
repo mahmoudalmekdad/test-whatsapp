@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
           messaging_product: "whatsapp",
           to: from,
           text: {
-            body: "Hi.. I'm Dr. Omar alhayagh, your message is " + msg_body
+            body: "Hi.. This message from Mahmoud: with your message " + msg_body
           }
         },
         headers: {

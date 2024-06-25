@@ -36,7 +36,7 @@ export async function GET(request: Request) {
       }
       const webhookBody = JSON.parse(rawRequestBody) as any;
       if (webhookBody.entry.length > 0) {
-        console.log("webhookBody",webhookBody)
+        console.log("webhookBodyaaaaaaaaaaaaaa",webhookBody)
       }
       const changes = webhookBody.entry[0].changes;
       console.log("changes", changes)

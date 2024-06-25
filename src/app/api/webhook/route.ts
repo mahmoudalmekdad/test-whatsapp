@@ -45,31 +45,34 @@ export async function POST(request: NextRequest) {
       webhookBody.entry[0].changes[0].value.messages &&
       webhookBody.entry[0].changes[0].value.messages[0]) {
 
-      let phone_no_id = webhookBody.entry[0].changes[0].value.metadata.phone_number_id
-      let from = webhookBody.entry[0].changes[0].value.messages[0].from
-      let msg_body = webhookBody.entry[0].changes[0].value.messages[0].text.body
-      console.log("aaaaaaaaaaaaaaa", phone_no_id, from, msg_body)
-      console.log("webhookBodyaaaaaaaaaaaaaa", webhookBody.entry[0].changes)
-      axios({
-        method: "POST",
-        url: `https://graph.facebook.com/v20.0/${phone_no_id}/messages?access_token=${`EAANrLF1TIn8BOzFCkHkkTeHY5Rkj3yXtruwnMONVjY7OlA4vwSXjzCfaAwmdRBaZC8k8dSx50SACU8ZC306dzTU3b69HbB67WG1UxFXMW7Ud92MjdZAZADNIBz35E8iJj0nitGT8AhtQw3M43gACsg1IQryJvqFZAlOcAKTG8cIAC4X9SsdraWasmDlIA4kPo`}`,
-        data: {
-          messaging_product: "whatsapp",
-          to: from,
-          text: {
-            body: "Hi.. This message from Mahmoud: with your message " + msg_body
+      const changes = webhookBody.entry[0].changes;
+      if (changes.length > 0) {
+        let phone_no_id = webhookBody.entry[0].changes[0].value.metadata.phone_number_id
+        let from = webhookBody.entry[0].changes[0].value.messages[0].from
+        let msg_body = webhookBody.entry[0].changes[0].value.messages[0].text.body
+        console.log("aaaaaaaaaaaaaaa", phone_no_id, from, msg_body)
+        console.log("webhookBodyaaaaaaaaaaaaaa", webhookBody.entry[0].changes)
+        axios({
+          method: "POST",
+          url: `https://graph.facebook.com/v20.0/${phone_no_id}/messages?access_token=${`EAANrLF1TIn8BOzFCkHkkTeHY5Rkj3yXtruwnMONVjY7OlA4vwSXjzCfaAwmdRBaZC8k8dSx50SACU8ZC306dzTU3b69HbB67WG1UxFXMW7Ud92MjdZAZADNIBz35E8iJj0nitGT8AhtQw3M43gACsg1IQryJvqFZAlOcAKTG8cIAC4X9SsdraWasmDlIA4kPo`}`,
+          data: {
+            messaging_product: "whatsapp",
+            to: from,
+            text: {
+              body: "Hi.. This message from Mahmoud: with your message " + msg_body
+            }
+          },
+          headers: {
+            "Content-Type": "application/json"
           }
-        },
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }).then(function (response) {
-        console.log(response)
-        return new NextResponse(response.data, { status: 200 })
-      }).catch(function (error) {
-        console.log(error.toJSON());
-        return new NextResponse(error.toJSON(), { status: 400 })
-      });
+        }).then(function (response) {
+          console.log(response)
+          return new NextResponse(response.data, { status: 200 })
+        }).catch(function (error) {
+          console.log(error.toJSON());
+          return new NextResponse(error.toJSON(), { status: 400 })
+        });
+      }
     }
   }
   const changes = webhookBody.entry[0].changes;

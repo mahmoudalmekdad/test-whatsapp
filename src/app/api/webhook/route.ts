@@ -5,6 +5,7 @@ import axios from 'axios';
 
 export const revalidate = 0
 
+// auth 
 export async function GET(request: Request) {
   const urlDecoded = new URL(request.url)
   const urlParams = urlDecoded.searchParams
@@ -24,6 +25,8 @@ export async function GET(request: Request) {
   }
 }
 
+
+// receive Message
 export async function POST(request: NextRequest) {
   const headersList = headers();
   // console.log('aaaaaaaa',headersList)
@@ -62,13 +65,16 @@ export async function POST(request: NextRequest) {
         }
       }).then(function (response) {
         console.log(response)
+        return new NextResponse(response.data, { status: 200 })
       }).catch(function (error) {
         console.log(error.toJSON());
+        return new NextResponse(error.toJSON(), { status: 400 })
       });
     }
   }
   const changes = webhookBody.entry[0].changes;
   console.log("changes", changes)
+  return new NextResponse(changes, { status: 400 })
 }
 
 

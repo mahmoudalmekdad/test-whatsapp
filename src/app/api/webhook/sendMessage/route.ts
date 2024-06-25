@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
         url: `https://graph.facebook.com/v19.0/271263942745722/messages`,
         data: {
             messaging_product: "whatsapp",
-            to: "971509264823",
+            to: "971503002601",
             text: {
                 // body: "Hala Partner.. I'm Dr Clinica, your message is How are you"
                 body: "This message from the CRM system (did you receive?)"

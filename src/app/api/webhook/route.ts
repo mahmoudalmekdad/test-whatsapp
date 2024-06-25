@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     let mode = urlParams.get('hub.mode');
     let token = urlParams.get('hub.verify_token');
     let challenge = urlParams.get('hub.challenge');
-    console.log("aaaaaaaaaaaaaaa", mode, token, challenge)
+    // console.log("aaaaaaaaaaaaaaa", mode, token, challenge)
     if (mode && token && challenge && mode == 'subscribe') {
       const isValid = token == "TestByJawad"
       if (isValid) {
@@ -25,7 +25,7 @@ export async function GET(request: Request) {
 
   export async function POST(request: NextRequest) {
     const headersList = headers();
-    console.log('aaaaaaaa',headersList)
+    // console.log('aaaaaaaa',headersList)
     const xHubSigrature256 = headersList.get('x-hub-signature-256');
     const rawRequestBody = await request.text()
 
@@ -36,7 +36,16 @@ export async function GET(request: Request) {
       }
       const webhookBody = JSON.parse(rawRequestBody) as any;
       if (webhookBody.entry.length > 0) {
-        console.log("webhookBodyaaaaaaaaaaaaaa",webhookBody)
+          if(webhookBody.entry && 
+              webhookBody.entry[0].changes &&
+              webhookBody.entry[0].changes[0].value.messages &&
+              webhookBody.entry[0].changes[0].value.messages[0]){
+
+              let phone_no_id = webhookBody.entry[0].changes[0].value.metadata.phone_number_id
+              let from = webhookBody.entry[0].changes[0].value.messages[0].from
+              let msg_body = webhookBody.entry[0].changes[0].value.messages[0].text.body
+        console.log("webhookBodyaaaaaaaaaaaaaa",phone_no_id,from,msg_body)
+              }
       }
       const changes = webhookBody.entry[0].changes;
       console.log("changes", changes)

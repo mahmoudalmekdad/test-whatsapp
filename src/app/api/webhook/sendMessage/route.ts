@@ -29,4 +29,5 @@ export async function POST(request: NextRequest) {
         // res.json(error.message)
         return new NextResponse(error.message, { status: 404 })
     });
+    return new NextResponse()
 }

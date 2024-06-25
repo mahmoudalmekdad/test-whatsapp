@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
       let from = webhookBody.entry[0].changes[0].value.messages[0].from
       let msg_body = webhookBody.entry[0].changes[0].value.messages[0].text.body
       console.log("aaaaaaaaaaaaaaa", phone_no_id, from, msg_body)
-      console.log("webhookBodyaaaaaaaaaaaaaa", webhookBody)
+      console.log("webhookBodyaaaaaaaaaaaaaa", webhookBody.entry[0].changes)
       axios({
         method: "POST",
         url: `https://graph.facebook.com/v20.0/${phone_no_id}/messages?access_token=${`EAANrLF1TIn8BOzFCkHkkTeHY5Rkj3yXtruwnMONVjY7OlA4vwSXjzCfaAwmdRBaZC8k8dSx50SACU8ZC306dzTU3b69HbB67WG1UxFXMW7Ud92MjdZAZADNIBz35E8iJj0nitGT8AhtQw3M43gACsg1IQryJvqFZAlOcAKTG8cIAC4X9SsdraWasmDlIA4kPo`}`,
